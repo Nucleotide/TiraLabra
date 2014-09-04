@@ -7,6 +7,7 @@ import tira.astar.Astar;
 import tira.dijkstra.Dijkstra;
 import tira.list.LinkedList;
 import tira.utils.Location;
+import tira.utils.MapCreator;
 import tira.utils.Mapper;
 
 /**
@@ -32,6 +33,8 @@ public class Run {
         String start = "";
         String end = "";
         int algoritmi;
+        MapCreator kartta = new MapCreator(100);
+        int[][] maailma = kartta.getArray();
         
         /**
          * Alustetaan kartta.
@@ -88,4 +91,5 @@ public class Run {
         d.route();
         d.print();
     }    
+
 }
