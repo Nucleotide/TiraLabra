@@ -46,8 +46,12 @@ public class Astar {
             }
             Node uusi = new Node(nimi);
             this.cells.add(uusi);
-            int x = rand.nextInt(this.nodeCount);
-            int y = rand.nextInt(this.nodeCount);
+            
+            /**
+             * Tässä mahdollisuus säätää x, y alueen kokoa.
+             */
+            int x = rand.nextInt((this.nodeCount/5));
+            int y = rand.nextInt((this.nodeCount/5));
             uusi.setCoords(x, y);
         }
         
@@ -55,7 +59,7 @@ public class Astar {
          * Tämä for-looppi arpoo jokaiselle nodelle naapureiden määrän ja naapurit.
          */
         for (Node listaaja : this.cells) {
-            int naapureita = rand.nextInt((this.nodeCount/4));
+            int naapureita = rand.nextInt((this.nodeCount/10));
             for (int i = 0; i < naapureita; i++) {
                 int satunnainenNaapuri = rand.nextInt(this.nodeCount);
                 /**
@@ -69,13 +73,13 @@ public class Astar {
                      * kuin solujen välinen euklidinen yhteys.
                      */
                     Node naapuri = (Node)this.cells.get(satunnainenNaapuri);
-                    int kaari = rand.nextInt((this.nodeCount/2));
+                    int kaari = rand.nextInt((this.nodeCount/10));
                     int xdiff = Math.abs(listaaja.getX() - naapuri.getX());
                     int ydiff = Math.abs(listaaja.getY() - naapuri.getY());
                     double euklidinen = Math.sqrt((xdiff*xdiff + ydiff*ydiff));
                     int dist = (int)euklidinen;
                     if (kaari <= dist) {
-                        kaari = dist*2;
+                        kaari = dist + 2;
                     }
                     listaaja.addEdge(new Edge(naapuri, kaari));
                 }

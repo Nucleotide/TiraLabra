@@ -6,8 +6,6 @@ import tira.common.Node;
 import tira.heap.Heap;
 import tira.list.LinkedList;
 import tira.utils.Helper;
-import tira.utils.Location;
-import tira.utils.Target;
 
 /**
  *
@@ -53,7 +51,7 @@ public class Dijkstra {
          * Tämä for-looppi arpoo jokaiselle nodelle naapureiden määrän ja naapurit.
          */
         for (Node listaaja : this.nodes) {
-            int naapureita = rand.nextInt((this.nodeCount/4));
+            int naapureita = rand.nextInt((this.nodeCount/10));
             for (int i = 0; i < naapureita; i++) {
                 int satunnainenNaapuri = rand.nextInt(this.nodeCount);
                 /**
@@ -65,7 +63,7 @@ public class Dijkstra {
                     /**
                      * arvotaan kaaripaino ja lisätään naapuri.
                      */
-                    int kaari = rand.nextInt(100);
+                    int kaari = rand.nextInt((this.nodeCount/10)) + 5;
                     listaaja.addEdge(new Edge((Node)this.nodes.get(satunnainenNaapuri), kaari));
                 }
             }

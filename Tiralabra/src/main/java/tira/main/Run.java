@@ -15,7 +15,6 @@ public class Run {
     /**
      * 
      * @param args
-     * @throws FileNotFoundException
      * Pääohjelma, jossa ensin luetaan karttatiedosto ja sen jälkeen käyttäjä ohjaa toimintaa.
      */
     public static void main( String[] args ){
