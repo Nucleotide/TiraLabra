@@ -1,5 +1,6 @@
 package tira.dijkstra;
 
+import java.util.Random;
 import tira.common.Edge;
 import tira.common.Node;
 import tira.heap.Heap;
@@ -23,35 +24,67 @@ public class Dijkstra {
     private Node goalNode;
     private Helper path;
 
-    public Dijkstra(String start, String end, LinkedList map) {
-        this.source = start;
-        this.destination = end;
+    public Dijkstra() {
         this.nodes = new LinkedList<Node>();
         this.path = new Helper(this.nodes);
-        this.locations = map;
     }
     
     /**
      * Metodi alustaa kartasta verkon solmut ja kaaret, joita käytetään Dijkstran algoritmissa.
      * Sen lisäksi asetetaan muistiin lähtö -ja maalisolmut.
      */
-    public void initialize() {
-        for (Location loc : this.locations) {
-            Node next = new Node(loc.toString());
-            this.nodes.add(next);
+//    public void initialize() {
+//        for (Location loc : this.locations) {
+//            Node next = new Node(loc.toString());
+//            this.nodes.add(next);
+//        }
+//        
+//        for (Node helper : this.nodes) {
+//            Location next = (Location)this.locations.searchWithString(helper.toString()).getOlio();
+//            LinkedList<Target> targets = next.getTargets();
+//            for (Target finder : targets) {
+//                Node added = this.path.search(finder.getName());
+//                helper.addEdge(new Edge(added, finder.getDistance()));
+//            }
+//        }
+//        
+//        this.startNode = this.path.search(this.source);
+//        this.goalNode = this.path.search(this.destination);
+//    }
+    
+    public void randomMap() {
+        Random rand = new Random();
+        String nimi ="";
+        String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i=0; i<100;i++) {
+            nimi = "";
+            for (int j = 0; j < 7; j++) {
+                int arpa = rand.nextInt(35);
+                nimi = nimi + letters.charAt(arpa);
+                
+            }
+            Node uusi = new Node(nimi);
+            this.nodes.add(uusi);
         }
         
-        for (Node helper : this.nodes) {
-            Location next = (Location)this.locations.searchWithString(helper.toString()).getOlio();
-            LinkedList<Target> targets = next.getTargets();
-            for (Target finder : targets) {
-                Node added = this.path.search(finder.getName());
-                helper.addEdge(new Edge(added, finder.getDistance()));
+        for (Node listaaja : this.nodes) {
+            int naapureita = rand.nextInt(25);
+            for (int i = 0; i < naapureita; i++) {
+                int satunnainenNaapuri = rand.nextInt(100);
+                if (this.nodes.get(satunnainenNaapuri).equals(listaaja)) {
+                    i--;
+                } else {
+                    int kaari = rand.nextInt(120);
+                    listaaja.addEdge(new Edge((Node)this.nodes.get(satunnainenNaapuri), kaari));
+                }
             }
         }
         
-        this.startNode = this.path.search(this.source);
-        this.goalNode = this.path.search(this.destination);
+        int alku = rand.nextInt(100);
+        int maali = rand.nextInt(100);
+        this.startNode = (Node)this.nodes.get(alku);
+        this.goalNode = (Node)this.nodes.get(maali);
+        
     }
     
     /**

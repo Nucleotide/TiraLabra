@@ -7,7 +7,6 @@ import tira.astar.Astar;
 import tira.dijkstra.Dijkstra;
 import tira.list.LinkedList;
 import tira.utils.Location;
-import tira.utils.MapCreator;
 import tira.utils.Mapper;
 
 /**
@@ -26,21 +25,19 @@ public class Run {
      */
     public static void main( String[] args ) throws FileNotFoundException{
 
-        File map = new File("kartta.csv");
-        Scanner reader = new Scanner(map);
+//        File map = new File("kartta.csv");
+//        Scanner reader = new Scanner(map);
         Scanner input = new Scanner(System.in);
-        Mapper grid = new Mapper(reader);
-        String start = "";
-        String end = "";
+//        Mapper grid = new Mapper(reader);
+//        String start = "";
+//        String end = "";
         int algoritmi;
-        MapCreator kartta = new MapCreator(100);
-        int[][] maailma = kartta.getArray();
         
         /**
          * Alustetaan kartta.
          */        
-        grid.initialize();
-        LinkedList<Location> mappi = grid.getMap();
+//        grid.initialize();
+//        LinkedList<Location> mappi = grid.getMap();
         
         /**
          * Käyttäjä valitsee kumalla algoritmilla haluaa hakea reitin.
@@ -52,21 +49,21 @@ public class Run {
          * Käyttäjä valitsee alkupisteen ja loppupisteen.
          * Tarkistetaan, että käyttäjä ei sekoile vaan valitsee olemassaolevat kohteet.
          */       
-        System.out.println("Valitse lähtöpiste ja määränpää kirjoittamalla kohde.");
-        grid.print();
-        while (!grid.validKeys(start, end)) {
-           System.out.println("Lähtöpaikka:");
-           start = input.nextLine();
-
-           System.out.println("Päämäärä:");
-           end = input.nextLine();
-        }
+//        System.out.println("Valitse lähtöpiste ja määränpää kirjoittamalla kohde.");
+//        grid.print();
+//        while (!grid.validKeys(start, end)) {
+//           System.out.println("Lähtöpaikka:");
+//           start = input.nextLine();
+//
+//           System.out.println("Päämäärä:");
+//           end = input.nextLine();
+//        }
         
         if (algoritmi == 2) {
-            doDijkstra(start, end, mappi);
+            doDijkstra();
         }
         if (algoritmi == 1) {
-            doAstar(start, end, mappi);
+            doAstar();
         }    
         
         System.exit(0);
@@ -75,9 +72,10 @@ public class Run {
     /**
      * Luodaan Astar-olio, alustetaa verkko ja etsitään reitti.
      */
-    private static void doAstar(String s, String f, LinkedList m) {
-        Astar a = new Astar(s, f, m);
-        a.initialize();
+    private static void doAstar() {
+        Astar a = new Astar();
+//        a.initialize();
+        a.randomMap();
         a.route();
         a.print();
     }
@@ -85,9 +83,10 @@ public class Run {
     /**
      * Luodaan Dijsktra-olio, alustetaan verkko ja etsitään reitti.
      */
-    private static void doDijkstra(String s, String f, LinkedList l) {
-        Dijkstra d = new Dijkstra(s, f, l);
-        d.initialize();
+    private static void doDijkstra() {
+        Dijkstra d = new Dijkstra();
+//        d.initialize();
+        d.randomMap();
         d.route();
         d.print();
     }    
