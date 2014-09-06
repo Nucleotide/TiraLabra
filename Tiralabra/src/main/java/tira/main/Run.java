@@ -1,13 +1,8 @@
 package tira.main;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import tira.astar.Astar;
 import tira.dijkstra.Dijkstra;
-import tira.list.LinkedList;
-import tira.utils.Location;
-import tira.utils.Mapper;
 
 /**
  *
@@ -23,7 +18,7 @@ public class Run {
      * @throws FileNotFoundException
      * Pääohjelma, jossa ensin luetaan karttatiedosto ja sen jälkeen käyttäjä ohjaa toimintaa.
      */
-    public static void main( String[] args ) throws FileNotFoundException{
+    public static void main( String[] args ){
 
 //        File map = new File("kartta.csv");
 //        Scanner reader = new Scanner(map);
@@ -31,8 +26,8 @@ public class Run {
 //        Mapper grid = new Mapper(reader);
 //        String start = "";
 //        String end = "";
-        int algoritmi;
-        int nodelkm;
+        int algoritmi = 0;
+        int nodelkm = 0;
         
         /**
          * Alustetaan kartta.
@@ -43,10 +38,16 @@ public class Run {
         /**
          * Käyttäjä valitsee kumalla algoritmilla haluaa hakea reitin.
          */
-        System.out.println("Valitse algoritmi reitin hakuun:\n 1 = A*\n 2 = Dijkstra.");
-        algoritmi = Integer.parseInt(input.nextLine());
-        System.out.println("Kuinka paljon nodeja?");
-        nodelkm = Integer.parseInt(input.nextLine());
+        try {
+            System.out.println("Valitse algoritmi reitin hakuun:\n 1 = A*\n 2 = Dijkstra.");
+            algoritmi = Integer.parseInt(input.nextLine());
+            System.out.println("Kuinka paljon nodeja?");
+            nodelkm = Integer.parseInt(input.nextLine());
+            
+        } catch (NumberFormatException e) {
+            System.out.println("Koitapa nyt antaa numeroita..");
+        }
+        
         
         /**
          * Käyttäjä valitsee alkupisteen ja loppupisteen.
@@ -62,10 +63,10 @@ public class Run {
 //           end = input.nextLine();
 //        }
         
-        if (algoritmi == 2) {
+        if (algoritmi == 2 && nodelkm > 0) {
             doDijkstra(nodelkm);
         }
-        if (algoritmi == 1) {
+        if (algoritmi == 1 && nodelkm > 0) {
             doAstar(nodelkm);
         }    
         

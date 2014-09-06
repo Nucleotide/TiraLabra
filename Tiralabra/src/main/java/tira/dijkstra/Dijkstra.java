@@ -146,7 +146,7 @@ public class Dijkstra {
      */   
     public void print() {
         if (this.goalNode.getShortest() == Integer.MAX_VALUE) {
-            System.out.println("Reittiä ei ole kohteiden välillä");
+            System.out.println("Reittiä ei ole kohteiden " + this.startNode.toString() + " ja " + this.goalNode.toString() + " välillä");
         } else {
             System.out.println("Lyhyin reitti solmusta " + this.startNode.toString() + " solmuun " + this.goalNode.toString() + " on " + this.goalNode.getShortest() + "km.");
             System.out.println(this.path.getRoute(this.goalNode));

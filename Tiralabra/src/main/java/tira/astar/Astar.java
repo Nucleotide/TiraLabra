@@ -157,7 +157,7 @@ public class Astar {
      */ 
     public void print() {
         if (this.goalCell.getShortest() == Integer.MAX_VALUE) {
-            System.out.println("Reittiä ei ole kohteiden välillä");
+            System.out.println("Reittiä ei ole kohteiden " + this.startCell.toString() + " ja " + this.goalCell.toString() + " välillä");
         } else {
             System.out.println("Lyhyin reitti solmusta " + this.startCell.toString() + " solmuun " + this.goalCell.toString() + " on " + this.goalCell.getShortest() + "km.");         
             System.out.println(this.path.getRoute(this.goalCell));
