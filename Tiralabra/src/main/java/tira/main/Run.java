@@ -32,6 +32,7 @@ public class Run {
 //        String start = "";
 //        String end = "";
         int algoritmi;
+        int nodelkm;
         
         /**
          * Alustetaan kartta.
@@ -44,6 +45,8 @@ public class Run {
          */
         System.out.println("Valitse algoritmi reitin hakuun:\n 1 = A*\n 2 = Dijkstra.");
         algoritmi = Integer.parseInt(input.nextLine());
+        System.out.println("Kuinka paljon nodeja?");
+        nodelkm = Integer.parseInt(input.nextLine());
         
         /**
          * Käyttäjä valitsee alkupisteen ja loppupisteen.
@@ -60,10 +63,10 @@ public class Run {
 //        }
         
         if (algoritmi == 2) {
-            doDijkstra();
+            doDijkstra(nodelkm);
         }
         if (algoritmi == 1) {
-            doAstar();
+            doAstar(nodelkm);
         }    
         
         System.exit(0);
@@ -72,23 +75,30 @@ public class Run {
     /**
      * Luodaan Astar-olio, alustetaa verkko ja etsitään reitti.
      */
-    private static void doAstar() {
-        Astar a = new Astar();
+    private static void doAstar(int nodeja) {
+        Astar a = new Astar(nodeja);
 //        a.initialize();
         a.randomMap();
+        long start = System.nanoTime();
         a.route();
+        long end = System.nanoTime();
+        long micros = (end - start) / 1000;
+        System.out.println("Operaatioon kului aikaa: \n" + micros + "mikrosekuntia"); 
         a.print();
     }
      
     /**
      * Luodaan Dijsktra-olio, alustetaan verkko ja etsitään reitti.
      */
-    private static void doDijkstra() {
-        Dijkstra d = new Dijkstra();
+    private static void doDijkstra(int nodeja) {
+        Dijkstra d = new Dijkstra(nodeja);
 //        d.initialize();
         d.randomMap();
+        long start = System.nanoTime();
         d.route();
+        long end = System.nanoTime();
+        long micros = (end - start) / 1000;
+        System.out.println("Operaatioon kului aikaa: \n" + micros + "mikrosekuntia"); 
         d.print();
     }    
-
 }

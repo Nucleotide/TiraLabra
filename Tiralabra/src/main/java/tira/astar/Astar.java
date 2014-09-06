@@ -24,13 +24,15 @@ public class Astar {
     private Node startCell;
     private Node goalCell;
     private Helper path;
+    private int nodeCount;
 
-    public Astar() {
+    public Astar(int nodeja) {
 //        this.source = start;
 //        this.destination = end;
 //        this.locations = grid;
         this.cells = new LinkedList<Node>();
         this.path = new Helper(this.cells);
+        this.nodeCount=nodeja;
     }
     
     /**
@@ -59,11 +61,17 @@ public class Astar {
 //        this.setHeuristics();
 //    }
     
+    /**
+     * Tehdään random kartta.
+     */
     public void randomMap() {
         Random rand = new Random();
         String nimi ="";
         String letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        for (int i=0; i<100;i++) {
+        /**
+         * Tämä for-looppi määrää monta nodea verkoon tulee ja luo nodet.
+         */
+        for (int i=0; i<this.nodeCount;i++) {
             nimi = "";
             for (int j = 0; j < 7; j++) {
                 int arpa = rand.nextInt(35);
@@ -74,23 +82,35 @@ public class Astar {
             this.cells.add(uusi);
         }
         
+        /**
+         * Tämä for-looppi arpoo jokaiselle nodelle naapureiden määrän ja naapurit.
+         */
         for (Node listaaja : this.cells) {
-            int naapureita = rand.nextInt(25);
+            int naapureita = rand.nextInt((this.nodeCount/4));
             for (int i = 0; i < naapureita; i++) {
-                int satunnainenNaapuri = rand.nextInt(100);
+                int satunnainenNaapuri = rand.nextInt(this.nodeCount);
+                /**
+                 * Ei lisätä nodea itseään omaksi naapurikseen.
+                 */
                 if (this.cells.get(satunnainenNaapuri).equals(listaaja)) {
                     i--;
                 } else {
-                    int kaari = rand.nextInt(120);
+                    /**
+                     * arvotaan kaaripaino ja lisätään naapuri.
+                     */
+                    int kaari = rand.nextInt(100);
                     listaaja.addEdge(new Edge((Node)this.cells.get(satunnainenNaapuri), kaari));
                 }
             }
         }
         
-        int alku = rand.nextInt(100);
-        int maali = rand.nextInt(100);
+        /**
+         * Arvotaan maali ja lähtö.
+         */
+        int alku = rand.nextInt(this.nodeCount);
+        int maali = rand.nextInt(this.nodeCount);
         this.startCell = (Node)this.cells.get(alku);
-        this.goalCell = (Node)this.cells.get(maali);
+        this.goalCell = (Node)this.cells.get(maali);       
     }
     
     /**
