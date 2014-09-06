@@ -6,8 +6,6 @@ import tira.common.Node;
 import tira.heap.Heap;
 import tira.list.LinkedList;
 import tira.utils.Helper;
-import tira.utils.Location;
-import tira.utils.Target;
 
 /**
  *
@@ -18,48 +16,16 @@ import tira.utils.Target;
 public class Astar {
     
     private LinkedList<Node> cells;
-//    private LinkedList<Location> locations;
-//    private String destination;
-//    private String source;
     private Node startCell;
     private Node goalCell;
     private Helper path;
     private int nodeCount;
 
     public Astar(int nodeja) {
-//        this.source = start;
-//        this.destination = end;
-//        this.locations = grid;
         this.cells = new LinkedList<Node>();
         this.path = new Helper(this.cells);
         this.nodeCount=nodeja;
     }
-    
-    /**
-     * Alustus-metodi, joka luo Astar algoritmin tarvitsemat solmut ja polut tekstitiedostosta
-     * tallenetun kartan perusteella.
-     */  
-//    public void initialize() {
-//        for (Location apu : this.locations) {
-//            Node next = new Node(apu.toString());
-//            this.cells.add(next);
-//        }
-//        
-//        for (Node helper : this.cells) {
-//            Location next = (Location)this.locations.searchWithString(helper.toString()).getOlio();
-//            LinkedList<Target> targets = next.getTargets();
-//            for (Target finder : targets) {
-//                Node added = this.path.search(finder.getName());
-//                added.setCoords(finder.getX(), finder.getY());
-//                helper.addEdge(new Edge(added, finder.getDistance()));
-//            }
-//        }
-//        
-//        this.startCell = this.path.search(this.source);
-//        this.goalCell = this.path.search(this.destination);
-//        
-//        this.setHeuristics();
-//    }
     
     /**
      * Tehdään random kartta.
@@ -145,7 +111,12 @@ public class Astar {
                     if (neighbor.getShortest() > cost) {
                         neighbor.setShortest(cost);
                         neighbor.setPrevious(handle);
-                        heap.insert(neighbor);
+                        if (neighbor.inHeap()) {
+                            heap.decreaseKey(neighbor);
+                        } else {
+                            heap.insert(neighbor);
+                            neighbor.addedtoHeap();
+                        }  
                     }
                 }
             }

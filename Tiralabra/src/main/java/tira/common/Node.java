@@ -16,6 +16,7 @@ public class Node implements Comparable<Node> {
     private int heuristic;
     private int x;
     private int y;
+    private boolean inHeap;
     
     public Node(String name) {
         this.previous = null;
@@ -23,6 +24,7 @@ public class Node implements Comparable<Node> {
         this.shortest = Integer.MAX_VALUE;
         this.routes = new LinkedList<Edge>();
         this.heuristic = 0;
+        this.inHeap = false;
     }
     
     /**
@@ -76,6 +78,18 @@ public class Node implements Comparable<Node> {
     
     public int getY() {
         return this.y;
+    }
+    
+    public void addedtoHeap() {
+        this.inHeap = true;
+    }
+    
+    public void removedfromHeap() {
+        this.inHeap = false;
+    }
+    
+    public boolean inHeap() {
+        return this.inHeap;
     }
     
     /**

@@ -29,29 +29,6 @@ public class Dijkstra {
     }
     
     /**
-     * Metodi alustaa kartasta verkon solmut ja kaaret, joita käytetään Dijkstran algoritmissa.
-     * Sen lisäksi asetetaan muistiin lähtö -ja maalisolmut.
-     */
-//    public void initialize() {
-//        for (Location loc : this.locations) {
-//            Node next = new Node(loc.toString());
-//            this.nodes.add(next);
-//        }
-//        
-//        for (Node helper : this.nodes) {
-//            Location next = (Location)this.locations.searchWithString(helper.toString()).getOlio();
-//            LinkedList<Target> targets = next.getTargets();
-//            for (Target finder : targets) {
-//                Node added = this.path.search(finder.getName());
-//                helper.addEdge(new Edge(added, finder.getDistance()));
-//            }
-//        }
-//        
-//        this.startNode = this.path.search(this.source);
-//        this.goalNode = this.path.search(this.destination);
-//    }
-    
-    /**
      * Tehdään random kartta.
      */
     public void randomMap() {
@@ -100,7 +77,7 @@ public class Dijkstra {
         int alku = rand.nextInt(this.nodeCount);
         int maali = rand.nextInt(this.nodeCount);
         this.startNode = (Node)this.nodes.get(alku);
-        this.goalNode = (Node)this.nodes.get(maali);       
+        this.goalNode = (Node)this.nodes.get(maali);
     }
     
     /**
@@ -115,12 +92,14 @@ public class Dijkstra {
         this.startNode.setShortest(0);
         Heap<Node> heap = new Heap(this.nodes.size());
         heap.insert(this.startNode);
+        this.startNode.addedtoHeap();
         
         /**
          * Käydään läpi keko. 
          */      
         while (!heap.empty()) {
             Node handle = heap.poll();
+            handle.removedfromHeap();
             
             for (Edge apu : handle.getEdges()) {
                 Node neighbor = apu.getTarget();
@@ -133,11 +112,14 @@ public class Dijkstra {
                 if (distance < neighbor.getShortest()) {
                     neighbor.setShortest(distance);
                     neighbor.setPrevious(handle);
-                    heap.insert(neighbor);                   
-                }
-                
-            }
-            
+                    if (neighbor.inHeap()) {
+                        heap.decreaseKey(neighbor);
+                    } else {
+                        heap.insert(neighbor);
+                        neighbor.addedtoHeap();
+                    }                                   
+                }            
+            }          
         }
     }
 

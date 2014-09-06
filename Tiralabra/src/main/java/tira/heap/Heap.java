@@ -15,7 +15,7 @@ public class Heap <T> {
     private int size;
     
     public Heap (int size) {
-        this.table = new Node[size*3];
+        this.table = new Node[size*2];
         this.size = 0;
     }
     
@@ -77,6 +77,30 @@ public class Heap <T> {
             k = p;
         }
         this.table[k] = n;
+    }
+    
+    /**
+    * Pienennetään keossa olevan noden arvoa.
+    * @param neighbor node jonka arvoa pienennetään.
+    */
+    public void decreaseKey(Node n) {
+        int paikka = -1;
+        
+        for (int i = 0; i <= this.size; i++) {
+            if (table[i].equals(n)) {
+                paikka = i;
+                break;
+            }
+        }
+        
+        while (paikka > 0 && n.compareTo(this.table[(paikka-1)/2]) < 0) {
+            Node parent = this.table[(paikka-1)/2];
+            this.table[paikka] = parent;
+            int paikkaUusi = (paikka-1)/2;
+            paikka = paikkaUusi;
+        }
+        this.table[paikka] = n;
+        
     }
     
     /**

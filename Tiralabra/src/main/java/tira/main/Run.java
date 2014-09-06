@@ -20,20 +20,9 @@ public class Run {
      */
     public static void main( String[] args ){
 
-//        File map = new File("kartta.csv");
-//        Scanner reader = new Scanner(map);
         Scanner input = new Scanner(System.in);
-//        Mapper grid = new Mapper(reader);
-//        String start = "";
-//        String end = "";
         int algoritmi = 0;
         int nodelkm = 0;
-        
-        /**
-         * Alustetaan kartta.
-         */        
-//        grid.initialize();
-//        LinkedList<Location> mappi = grid.getMap();
         
         /**
          * Käyttäjä valitsee kumalla algoritmilla haluaa hakea reitin.
@@ -47,21 +36,6 @@ public class Run {
         } catch (NumberFormatException e) {
             System.out.println("Koitapa nyt antaa numeroita..");
         }
-        
-        
-        /**
-         * Käyttäjä valitsee alkupisteen ja loppupisteen.
-         * Tarkistetaan, että käyttäjä ei sekoile vaan valitsee olemassaolevat kohteet.
-         */       
-//        System.out.println("Valitse lähtöpiste ja määränpää kirjoittamalla kohde.");
-//        grid.print();
-//        while (!grid.validKeys(start, end)) {
-//           System.out.println("Lähtöpaikka:");
-//           start = input.nextLine();
-//
-//           System.out.println("Päämäärä:");
-//           end = input.nextLine();
-//        }
         
         if (algoritmi == 2 && nodelkm > 0) {
             doDijkstra(nodelkm);
@@ -78,7 +52,6 @@ public class Run {
      */
     private static void doAstar(int nodeja) {
         Astar a = new Astar(nodeja);
-//        a.initialize();
         a.randomMap();
         long start = System.nanoTime();
         a.route();
@@ -93,7 +66,6 @@ public class Run {
      */
     private static void doDijkstra(int nodeja) {
         Dijkstra d = new Dijkstra(nodeja);
-//        d.initialize();
         d.randomMap();
         long start = System.nanoTime();
         d.route();
