@@ -97,9 +97,10 @@ public class Dijkstra {
         /**
          * Käydään läpi keko. 
          */      
-        while (!heap.empty()) {
+        while (!heap.empty() && !this.goalNode.closed()) {
             Node handle = heap.poll();
             handle.removedfromHeap();
+            handle.close();
             
             for (Edge apu : handle.getEdges()) {
                 Node neighbor = apu.getTarget();

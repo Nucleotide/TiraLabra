@@ -46,6 +46,9 @@ public class Astar {
             }
             Node uusi = new Node(nimi);
             this.cells.add(uusi);
+            int x = rand.nextInt(this.nodeCount);
+            int y = rand.nextInt(this.nodeCount);
+            uusi.setCoords(x, y);
         }
         
         /**
@@ -62,10 +65,19 @@ public class Astar {
                     i--;
                 } else {
                     /**
-                     * arvotaan kaaripaino ja lisätään naapuri.
+                     * arvotaan kaaripaino ja lisätään naapuri. Tarkistetaan, että kaari ei ole lyhyempi
+                     * kuin solujen välinen euklidinen yhteys.
                      */
-                    int kaari = rand.nextInt(100);
-                    listaaja.addEdge(new Edge((Node)this.cells.get(satunnainenNaapuri), kaari));
+                    Node naapuri = (Node)this.cells.get(satunnainenNaapuri);
+                    int kaari = rand.nextInt((this.nodeCount/2));
+                    int xdiff = Math.abs(listaaja.getX() - naapuri.getX());
+                    int ydiff = Math.abs(listaaja.getY() - naapuri.getY());
+                    double euklidinen = Math.sqrt((xdiff*xdiff + ydiff*ydiff));
+                    int dist = (int)euklidinen;
+                    if (kaari <= dist) {
+                        kaari = dist*2;
+                    }
+                    listaaja.addEdge(new Edge(naapuri, kaari));
                 }
             }
         }
@@ -76,7 +88,9 @@ public class Astar {
         int alku = rand.nextInt(this.nodeCount);
         int maali = rand.nextInt(this.nodeCount);
         this.startCell = (Node)this.cells.get(alku);
-        this.goalCell = (Node)this.cells.get(maali);       
+        this.goalCell = (Node)this.cells.get(maali);
+        
+        this.setHeuristics();
     }
     
     /**
@@ -91,14 +105,17 @@ public class Astar {
         this.startCell.setShortest(0);
         Heap<Node> heap = new Heap(this.cells.size());
         heap.insert(this.startCell);
+        this.startCell.addedtoHeap();
         LinkedList<Node> closed = new LinkedList<Node>();
         
         /**
          * Käydään läpi keko. 
          */     
-        while (!closed.contains(this.goalCell) && !heap.empty()) {
+        while (!this.goalCell.closed() && !heap.empty()) {
             Node handle = heap.poll();
+            handle.removedfromHeap();
             closed.add(handle);
+            handle.close();
             
             for (Edge apu : handle.getEdges()) {
                 Node neighbor = apu.getTarget();
@@ -107,7 +124,7 @@ public class Astar {
                 /**
                  * Etäisyyden päivitys mikäli ollaan löydetty parempi reitti.
                  */
-                if (!closed.contains(neighbor)) {
+                if (!neighbor.closed()) {
                     if (neighbor.getShortest() > cost) {
                         neighbor.setShortest(cost);
                         neighbor.setPrevious(handle);

@@ -17,6 +17,7 @@ public class Node implements Comparable<Node> {
     private int x;
     private int y;
     private boolean inHeap;
+    private boolean closed;
     
     public Node(String name) {
         this.previous = null;
@@ -25,6 +26,7 @@ public class Node implements Comparable<Node> {
         this.routes = new LinkedList<Edge>();
         this.heuristic = 0;
         this.inHeap = false;
+        this.closed = false;
     }
     
     /**
@@ -90,6 +92,14 @@ public class Node implements Comparable<Node> {
     
     public boolean inHeap() {
         return this.inHeap;
+    }
+    
+    public boolean closed() {
+        return this.closed;
+    }
+    
+    public void close() {
+        this.closed = true;
     }
     
     /**
